@@ -15,7 +15,7 @@
 
     body {
         font-family: Arial, sans-serif;
-        background-image: url('https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.ytimg.com%2Fvi%2FgUYWk3Hm9Zo%2Fmaxresdefault.jpg&f=1&nofb=1&ipt=b455fdf0b1b7828eddc66425174171d8d6e0182ab1b69e0a0260d66a82158192'); 
+        background-image: url('https://external-content.duckduckgo.com'); 
         background-size: cover;
         background-position: top center;
         background-repeat: no-repeat;
@@ -90,7 +90,6 @@
         z-index: 10;
     }
 
-    /* Modal Styles */
     .modal-overlay {
         position: fixed;
         inset: 0;
@@ -179,11 +178,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const aiModal = document.getElementById("infoModal");
     const mcModal = document.getElementById("mcModal");
+    const aiLink = document.getElementById("ai-link");
+    
     const overlay = document.createElement("div");
     overlay.id = "flash-overlay";
     document.body.appendChild(overlay);
 
-    document.getElementById("ai-link").addEventListener("click", (e) => {
+    aiLink.addEventListener("click", (e) => {
         e.preventDefault();
         aiModal.classList.add("active");
     });
@@ -197,8 +198,7 @@ document.addEventListener("DOMContentLoaded", () => {
         aiModal.classList.remove("active");
         overlay.style.opacity = "1";
         setTimeout(() => {
-            overlay.style.opacity = "0";
-            window.location.href = document.getElementById("ai-link").href;
+            window.location.href = aiLink.href;
         }, 300);
     });
 
@@ -206,13 +206,13 @@ document.addEventListener("DOMContentLoaded", () => {
         mcModal.classList.remove("active");
     });
 
-    document.querySelectorAll("a[href]:not(#ai-link):not(#mc-link)").forEach(link => {
-        link.addEventListener("click", event => {
-            event.preventDefault();
+    document.querySelectorAll("a[href]:not(#ai-link):not(#mc-link):not([href='#'])").forEach(link => {
+        link.addEventListener("click", function(e) {
+            e.preventDefault();
+            const destination = this.href;
             overlay.style.opacity = "1";
             setTimeout(() => {
-                overlay.style.opacity = "0";
-                window.location.href = link.href;
+                window.location.href = destination;
             }, 300);
         });
     });
@@ -242,9 +242,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 <h2>Válassz szolgáltatást</h2>
 
-<a href="https://ovegeshalozat.vpeti.online/lokalis/">ÖVEGES Lokális</a>
-<a href="https://ovegeshalozat.vpeti.online/publikus/">ÖVEGES Publikus</a>
-<a href="https://ovegeshalozat.vpeti.online/pubadmin/">ÖVEGES Publikus - Feltöltés</a>
+<a href="https://ovegeshalozat.vpeti.online">ÖVEGES Lokális</a>
+<a href="https://ovegeshalozat.vpeti.online">ÖVEGES Publikus</a>
+<a href="https://ovegeshalozat.vpeti.online">ÖVEGES Publikus - Feltöltés</a>
 <a href="https://208proxy.vpeti.online">208 VMWare csatlakozás</a>
 <a id="ai-link" href="https://ovegesai.vpeti.online">AI szerver</a>
 <a id="mc-link" href="#">Minecraft szerver</a>
