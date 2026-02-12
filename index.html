@@ -15,7 +15,7 @@
 
     body {
         font-family: Arial, sans-serif;
-        background-image: url('https://external-content.duckduckgo.com');
+        background-image: url('https://external-content.duckduckgo.com'); 
         background-size: cover;
         background-position: top center;
         background-repeat: no-repeat;
@@ -69,6 +69,15 @@
         box-shadow: 0 0 12px #4da3ff;
     }
 
+    #mc-link {
+        color: #55ff55;
+        border-color: #228b22;
+    }
+    #mc-link:hover {
+        box-shadow: 0 0 12px #55ff55;
+        border-color: #55ff55;
+    }
+
     .tiny-footer {
         position: fixed;
         top: 8px;
@@ -111,10 +120,17 @@
         text-align: center;
     }
 
+    .modal-content.mc-border {
+        border-color: #55ff55;
+        box-shadow: 0 0 20px rgba(85, 255, 85, 0.3);
+    }
+
     .modal-content h3 {
         margin-top: 0;
         color: #4da3ff;
     }
+
+    .mc-border h3 { color: #55ff55; }
 
     .modal-content p {
         font-size: 18px;
@@ -134,9 +150,8 @@
         font-size: 16px;
     }
 
-    .close-btn:hover {
-        background: #79baff;
-    }
+    .mc-btn { background: #55ff55; }
+    .mc-btn:hover { background: #85ff85; }
 
     #flash-overlay {
         position: fixed;
@@ -162,38 +177,47 @@
 document.addEventListener("DOMContentLoaded", () => {
     document.body.classList.add("loaded");
 
-    const modal = document.getElementById("infoModal");
-    const closeBtn = document.getElementById("closeModal");
-    const aiLink = document.getElementById("ai-link");
+    const aiModal = document.getElementById("infoModal");
+    const mcModal = document.getElementById("mcModal");
     const overlay = document.createElement("div");
     overlay.id = "flash-overlay";
     document.body.appendChild(overlay);
 
-    // Show popup only for AI Server link
-    aiLink.addEventListener("click", (event) => {
-        event.preventDefault();
-        modal.classList.add("active");
+    // AI Szerver Popup
+    document.getElementById("ai-link").addEventListener("click", (e) => {
+        e.preventDefault();
+        aiModal.classList.add("active");
     });
 
-    // Close and redirect
-    closeBtn.addEventListener("click", () => {
-        modal.classList.remove("active");
+    // MC Szerver Popup
+    document.getElementById("mc-link").addEventListener("click", (e) => {
+        e.preventDefault();
+        mcModal.classList.add("active");
+    });
+
+    // AI Bezárás és átirányítás
+    document.getElementById("closeModal").addEventListener("click", () => {
+        aiModal.classList.remove("active");
         overlay.style.opacity = "1";
         setTimeout(() => {
             overlay.style.opacity = "0";
-            window.location.href = aiLink.href;
+            window.location.href = document.getElementById("ai-link").href;
         }, 300);
     });
 
-    // Flash effect for all other links
-    document.querySelectorAll("a[href]:not(#ai-link)").forEach(link => {
+    // MC Bezárás (nincs átirányítás)
+    document.getElementById("closeMcModal").addEventListener("click", () => {
+        mcModal.classList.remove("active");
+    });
+
+    // Flash effect a többi linknek
+    document.querySelectorAll("a[href]:not(#ai-link):not(#mc-link)").forEach(link => {
         link.addEventListener("click", event => {
             event.preventDefault();
-            const url = link.href;
             overlay.style.opacity = "1";
             setTimeout(() => {
                 overlay.style.opacity = "0";
-                window.location.href = url;
+                window.location.href = link.href;
             }, 300);
         });
     });
@@ -203,12 +227,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
 <body>
 
+<!-- AI Modal -->
 <div class="modal-overlay" id="infoModal">
     <div class="modal-content">
         <h3>Belépési adatok</h3>
         <p><strong>Felhasználónév:</strong> iskolai belépés<br>
            <strong>Jelszó:</strong> oveges</p>
         <button class="close-btn" id="closeModal">Belépés a szerverre</button>
+    </div>
+</div>
+
+<div class="modal-overlay" id="mcModal">
+    <div class="modal-content mc-border">
+        <h3>Minecraft Szerver</h3>
+        <p><strong>IP:</strong> release-lindsay.gl.joinmc.link<br>
+           <strong>Verzió:</strong> 1.20.1 és fölötte</p>
+        <button class="close-btn mc-btn" id="closeMcModal">Bezárás</button>
     </div>
 </div>
 
@@ -219,6 +253,7 @@ document.addEventListener("DOMContentLoaded", () => {
 <a href="https://ovegeshalozat.vpeti.online">ÖVEGES Publikus - Feltöltés</a>
 <a href="https://208proxy.vpeti.online">208 VMWare csatlakozás</a>
 <a id="ai-link" href="https://ovegesai.vpeti.online">AI szerver</a>
+<a id="mc-link" href="#">Minecraft szerver</a>
     
 <div class="tiny-footer">
     © Öveges Technikum • Technikai támogatás: vpeti@vpeti.online • OPEN‑SCARIFF SERVER
