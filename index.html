@@ -15,7 +15,7 @@
 
     body {
         font-family: Arial, sans-serif;
-        background-image: url('https://external-content.duckduckgo.com'); 
+        background-image: url('https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.ytimg.com%2Fvi%2FgUYWk3Hm9Zo%2Fmaxresdefault.jpg&f=1&nofb=1&ipt=b455fdf0b1b7828eddc66425174171d8d6e0182ab1b69e0a0260d66a82158192'); 
         background-size: cover;
         background-position: top center;
         background-repeat: no-repeat;
@@ -90,6 +90,7 @@
         z-index: 10;
     }
 
+    /* Modal Styles */
     .modal-overlay {
         position: fixed;
         inset: 0;
@@ -178,22 +179,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const aiModal = document.getElementById("infoModal");
     const mcModal = document.getElementById("mcModal");
-    const aiLink = document.getElementById("ai-link");
     
+    // Create flash overlay
     const overlay = document.createElement("div");
     overlay.id = "flash-overlay";
     document.body.appendChild(overlay);
 
+    // AI Link Logic (Show Modal First)
+    const aiLink = document.getElementById("ai-link");
     aiLink.addEventListener("click", (e) => {
         e.preventDefault();
         aiModal.classList.add("active");
     });
 
+    // Minecraft Link Logic
     document.getElementById("mc-link").addEventListener("click", (e) => {
         e.preventDefault();
         mcModal.classList.add("active");
     });
 
+    // Modal Close and Redirect (for AI link)
     document.getElementById("closeModal").addEventListener("click", () => {
         aiModal.classList.remove("active");
         overlay.style.opacity = "1";
@@ -206,18 +211,21 @@ document.addEventListener("DOMContentLoaded", () => {
         mcModal.classList.remove("active");
     });
 
+    // FIX: Handling the first 3 buttons and the 208 link
+    // We target links that have an actual URL and are NOT the AI/MC special buttons
     document.querySelectorAll("a[href]:not(#ai-link):not(#mc-link):not([href='#'])").forEach(link => {
-        link.addEventListener("click", function(e) {
-            e.preventDefault();
-            const destination = this.href;
+        link.addEventListener("click", function(event) {
+            event.preventDefault();
+            const targetUrl = this.href; // Capture the specific URL (e.g., /lokalis/)
             overlay.style.opacity = "1";
             setTimeout(() => {
-                window.location.href = destination;
+                window.location.href = targetUrl;
             }, 300);
         });
     });
 });
 </script>
+
 </head>
 
 <body>
@@ -242,9 +250,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 <h2>Válassz szolgáltatást</h2>
 
-<a href="https://ovegeshalozat.vpeti.online">ÖVEGES Lokális</a>
-<a href="https://ovegeshalozat.vpeti.online">ÖVEGES Publikus</a>
-<a href="https://ovegeshalozat.vpeti.online">ÖVEGES Publikus - Feltöltés</a>
+<a href="https://ovegeshalozat.vpeti.online/lokalis/">ÖVEGES Lokális</a>
+<a href="https://ovegeshalozat.vpeti.online/publikus/">ÖVEGES Publikus</a>
+<a href="https://ovegeshalozat.vpeti.online/pubadmin/">ÖVEGES Publikus - Feltöltés</a>
 <a href="https://208proxy.vpeti.online">208 VMWare csatlakozás</a>
 <a id="ai-link" href="https://ovegesai.vpeti.online">AI szerver</a>
 <a id="mc-link" href="#">Minecraft szerver</a>
