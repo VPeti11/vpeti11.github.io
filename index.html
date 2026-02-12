@@ -183,19 +183,16 @@ document.addEventListener("DOMContentLoaded", () => {
     overlay.id = "flash-overlay";
     document.body.appendChild(overlay);
 
-    // AI Szerver Popup
     document.getElementById("ai-link").addEventListener("click", (e) => {
         e.preventDefault();
         aiModal.classList.add("active");
     });
 
-    // MC Szerver Popup
     document.getElementById("mc-link").addEventListener("click", (e) => {
         e.preventDefault();
         mcModal.classList.add("active");
     });
 
-    // AI Bezárás és átirányítás
     document.getElementById("closeModal").addEventListener("click", () => {
         aiModal.classList.remove("active");
         overlay.style.opacity = "1";
@@ -205,12 +202,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 300);
     });
 
-    // MC Bezárás (nincs átirányítás)
     document.getElementById("closeMcModal").addEventListener("click", () => {
         mcModal.classList.remove("active");
     });
 
-    // Flash effect a többi linknek
     document.querySelectorAll("a[href]:not(#ai-link):not(#mc-link)").forEach(link => {
         link.addEventListener("click", event => {
             event.preventDefault();
@@ -227,7 +222,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 <body>
 
-<!-- AI Modal -->
 <div class="modal-overlay" id="infoModal">
     <div class="modal-content">
         <h3>Belépési adatok</h3>
@@ -248,9 +242,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 <h2>Válassz szolgáltatást</h2>
 
-<a href="https://ovegeshalozat.vpeti.online">ÖVEGES Lokális</a>
-<a href="https://ovegeshalozat.vpeti.online">ÖVEGES Publikus</a>
-<a href="https://ovegeshalozat.vpeti.online">ÖVEGES Publikus - Feltöltés</a>
+<a href="https://ovegeshalozat.vpeti.online/lokalis/">ÖVEGES Lokális</a>
+<a href="https://ovegeshalozat.vpeti.online/publikus/">ÖVEGES Publikus</a>
+<a href="https://ovegeshalozat.vpeti.online/pubadmin/">ÖVEGES Publikus - Feltöltés</a>
 <a href="https://208proxy.vpeti.online">208 VMWare csatlakozás</a>
 <a id="ai-link" href="https://ovegesai.vpeti.online">AI szerver</a>
 <a id="mc-link" href="#">Minecraft szerver</a>
