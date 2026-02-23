@@ -180,30 +180,29 @@ document.addEventListener("DOMContentLoaded", () => {
     const aiModal = document.getElementById("infoModal");
     const mcModal = document.getElementById("mcModal");
     
-    // Create flash overlay
     const overlay = document.createElement("div");
     overlay.id = "flash-overlay";
     document.body.appendChild(overlay);
 
-    // AI Link Logic (Show Modal First)
     const aiLink = document.getElementById("ai-link");
-    aiLink.addEventListener("click", (e) => {
-        e.preventDefault();
-        aiModal.classList.add("active");
-    });
 
-    // Minecraft Link Logic
+    if (aiLink) {
+        aiLink.addEventListener("click", (e) => {
+            e.preventDefault();
+            aiModal.classList.add("active");
+        });
+    }
+
     document.getElementById("mc-link").addEventListener("click", (e) => {
         e.preventDefault();
         mcModal.classList.add("active");
     });
 
-    // Modal Close and Redirect (for AI link)
-    document.getElementById("closeModal").addEventListener("click", () => {
+    document.getElementById("closeModal")?.addEventListener("click", () => {
         aiModal.classList.remove("active");
         overlay.style.opacity = "1";
         setTimeout(() => {
-            window.location.href = aiLink.href;
+            if (aiLink) window.location.href = aiLink.href;
         }, 300);
     });
 
@@ -211,12 +210,11 @@ document.addEventListener("DOMContentLoaded", () => {
         mcModal.classList.remove("active");
     });
 
-    // FIX: Handling the first 3 buttons and the 208 link
-    // We target links that have an actual URL and are NOT the AI/MC special buttons
-    document.querySelectorAll("a[href]:not(#ai-link):not(#mc-link):not([href='#'])").forEach(link => {
+    /* FIXED SELECTOR HERE */
+    document.querySelectorAll("a[href^='http']").forEach(link => {
         link.addEventListener("click", function(event) {
             event.preventDefault();
-            const targetUrl = this.href; // Capture the specific URL (e.g., /lokalis/)
+            const targetUrl = this.href;
             overlay.style.opacity = "1";
             setTimeout(() => {
                 window.location.href = targetUrl;
@@ -258,7 +256,7 @@ document.addEventListener("DOMContentLoaded", () => {
 <a id="mc-link" href="#">Minecraft szerver</a>
     
 <div class="tiny-footer">
-    © Öveges Technikum • Technikai támogatás: vpeti@vpeti.online • OPEN‑SCARIFF SERVER
+    © Öveges Technikum • Technikai támogatás: vpeti@vpeti.online • OPEN-SCARIFF SERVER
 </div>
 
 </body>
