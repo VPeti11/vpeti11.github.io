@@ -180,29 +180,30 @@ document.addEventListener("DOMContentLoaded", () => {
     const aiModal = document.getElementById("infoModal");
     const mcModal = document.getElementById("mcModal");
     
+    // Create flash overlay
     const overlay = document.createElement("div");
     overlay.id = "flash-overlay";
     document.body.appendChild(overlay);
 
+    // AI Link Logic (Show Modal First)
     const aiLink = document.getElementById("ai-link");
+    aiLink.addEventListener("click", (e) => {
+        e.preventDefault();
+        aiModal.classList.add("active");
+    });
 
-    if (aiLink) {
-        aiLink.addEventListener("click", (e) => {
-            e.preventDefault();
-            aiModal.classList.add("active");
-        });
-    }
-
+    // Minecraft Link Logic
     document.getElementById("mc-link").addEventListener("click", (e) => {
         e.preventDefault();
         mcModal.classList.add("active");
     });
 
-    document.getElementById("closeModal")?.addEventListener("click", () => {
+    // Modal Close and Redirect (for AI link)
+    document.getElementById("closeModal").addEventListener("click", () => {
         aiModal.classList.remove("active");
         overlay.style.opacity = "1";
         setTimeout(() => {
-            if (aiLink) window.location.href = aiLink.href;
+            window.location.href = aiLink.href;
         }, 300);
     });
 
@@ -210,11 +211,12 @@ document.addEventListener("DOMContentLoaded", () => {
         mcModal.classList.remove("active");
     });
 
-    /* FIXED SELECTOR HERE */
-    document.querySelectorAll("a[href^='http']").forEach(link => {
+    // FIX: Handling the first 3 buttons and the 208 link
+    // We target links that have an actual URL and are NOT the AI/MC special buttons
+    document.querySelectorAll("a[href]:not(#ai-link):not(#mc-link):not([href='#'])").forEach(link => {
         link.addEventListener("click", function(event) {
             event.preventDefault();
-            const targetUrl = this.href;
+            const targetUrl = this.href; // Capture the specific URL (e.g., /lokalis/)
             overlay.style.opacity = "1";
             setTimeout(() => {
                 window.location.href = targetUrl;
@@ -253,10 +255,11 @@ document.addEventListener("DOMContentLoaded", () => {
 <a href="https://ovegeshalozat.vpeti.online/pubadmin/">ÖVEGES Publikus - Feltöltés</a>
 <a href="https://208proxy.vpeti.online">208 VMWare csatlakozás</a>
 <a href="https://208sql.vpeti.online">208 SQL Szerver csatlakozás</a>
+<a id="ai-link" href="https://ovegesai.vpeti.online">AI szerver</a>
 <a id="mc-link" href="#">Minecraft szerver</a>
     
 <div class="tiny-footer">
-    © Öveges Technikum • Technikai támogatás: vpeti@vpeti.online • OPEN-SCARIFF SERVER
+    © Öveges Technikum • Technikai támogatás: vpeti@vpeti.online • OPEN‑SCARIFF SERVER
 </div>
 
 </body>
