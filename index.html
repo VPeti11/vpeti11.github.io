@@ -30,9 +30,7 @@
         min-height: 100vh;
     }
 
-    body.loaded {
-        opacity: 1;
-    }
+    body.loaded { opacity: 1; }
 
     body::before {
         content: "";
@@ -42,19 +40,15 @@
         z-index: -1;
     }
 
-    h2 {
-        color: #fff;
-        margin-bottom: 25px;
-        text-shadow: 0 0 6px #000;
-    }
+    h2 { color: #fff; margin-bottom: 25px; text-shadow: 0 0 6px #000; }
 
-    a {
+    a, .menu-btn {
         display: inline-block;
-        margin: 14px;
-        font-size: 22px;
+        margin: 10px;
+        font-size: 20px;
         color: #4da3ff;
         text-decoration: none;
-        padding: 10px 14px;
+        padding: 12px 18px;
         background: rgba(0, 0, 0, 0.6);
         border: 1px solid #333;
         border-radius: 6px;
@@ -62,21 +56,15 @@
         cursor: pointer;
     }
 
-    a:hover {
+    a:hover, .menu-btn:hover {
         background: rgba(0, 0, 0, 0.75);
         color: #79baff;
         border-color: #4da3ff;
         box-shadow: 0 0 12px #4da3ff;
     }
 
-    #mc-link {
-        color: #55ff55;
-        border-color: #228b22;
-    }
-    #mc-link:hover {
-        box-shadow: 0 0 12px #55ff55;
-        border-color: #55ff55;
-    }
+    #mc-link, #dl-link { color: #55ff55; border-color: #228b22; }
+    #mc-link:hover, #dl-link:hover { box-shadow: 0 0 12px #55ff55; border-color: #55ff55; }
 
     .tiny-footer {
         position: fixed;
@@ -85,8 +73,6 @@
         font-size: 16px;
         color: #FFFF00;
         font-weight: bold;
-        white-space: nowrap;
-        text-align: right;
         z-index: 10;
     }
 
@@ -104,61 +90,44 @@
         transition: 0.3s;
     }
 
-    .modal-overlay.active {
-        visibility: visible;
-        opacity: 1;
-    }
+    .modal-overlay.active { visibility: visible; opacity: 1; }
 
     .modal-content {
         background: #1a1a1a;
-        padding: 30px;
+        padding: 25px;
         border-radius: 12px;
         border: 2px solid #4da3ff;
-        max-width: 400px;
+        max-width: 500px;
         width: 90%;
+        max-height: 80vh;
+        overflow-y: auto;
         box-shadow: 0 0 20px rgba(77, 163, 255, 0.3);
-        text-align: center;
     }
 
-    .modal-content.mc-border {
-        border-color: #55ff55;
-        box-shadow: 0 0 20px rgba(85, 255, 85, 0.3);
+    .dl-border { border-color: #55ff55; box-shadow: 0 0 20px rgba(85, 255, 85, 0.3); }
+
+    .modal-content h3 { color: #55ff55; margin-top: 0; }
+    .category-title { 
+        color: #FFFF00; 
+        text-align: left; 
+        border-bottom: 1px solid #444; 
+        margin: 15px 0 10px; 
+        padding-bottom: 5px;
     }
 
-    .modal-content h3 {
-        margin-top: 0;
-        color: #4da3ff;
+    .dl-list { text-align: left; list-style: none; padding: 0; }
+    .dl-list li { margin-bottom: 10px; }
+    .dl-list a { 
+        font-size: 16px; 
+        display: block; 
+        margin: 0; 
+        padding: 8px; 
+        background: rgba(255,255,255,0.05); 
     }
-
-    .mc-border h3 { color: #55ff55; }
-
-    .modal-content p {
-        font-size: 18px;
-        line-height: 1.6;
-        margin-bottom: 20px;
-        color: #fff;
-    }
-
-    .close-btn {
-        background: #4da3ff;
-        color: #000;
-        border: none;
-        padding: 12px 30px;
-        border-radius: 5px;
-        font-weight: bold;
-        cursor: pointer;
-        font-size: 16px;
-    }
-
-    .mc-btn { background: #55ff55; }
-    .mc-btn:hover { background: #85ff85; }
 
     #flash-overlay {
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
+        inset: 0;
         background: lightblue;
         opacity: 0;
         pointer-events: none;
@@ -167,84 +136,61 @@
     }
 
     @media (max-width: 600px) {
-        body { padding: 20px 10px 80px; }
-        a { font-size: 18px; width: 100%; }
-        .tiny-footer { bottom: 0; top: auto; left: 0; text-align: center; }
+        a, .menu-btn { width: 90%; }
+        .tiny-footer { position: relative; top: 0; right: 0; margin-top: 20px; }
     }
 </style>
 
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-    document.body.classList.add("loaded");
-
-    const aiModal = document.getElementById("infoModal");
-    const mcModal = document.getElementById("mcModal");
-    
-    // Create flash overlay
-    const overlay = document.createElement("div");
-    overlay.id = "flash-overlay";
-    document.body.appendChild(overlay);
-
-    // AI Link Logic (Show Modal First)
-    const aiLink = document.getElementById("ai-link");
-    aiLink.addEventListener("click", (e) => {
-        e.preventDefault();
-        aiModal.classList.add("active");
-    });
-
-    // Minecraft Link Logic
-    document.getElementById("mc-link").addEventListener("click", (e) => {
-        e.preventDefault();
-        mcModal.classList.add("active");
-    });
-
-    // Modal Close and Redirect (for AI link)
-    document.getElementById("closeModal").addEventListener("click", () => {
-        aiModal.classList.remove("active");
-        overlay.style.opacity = "1";
-        setTimeout(() => {
-            window.location.href = aiLink.href;
-        }, 300);
-    });
-
-    document.getElementById("closeMcModal").addEventListener("click", () => {
-        mcModal.classList.remove("active");
-    });
-
-    // FIX: Handling the first 3 buttons and the 208 link
-    // We target links that have an actual URL and are NOT the AI/MC special buttons
-    document.querySelectorAll("a[href]:not(#ai-link):not(#mc-link):not([href='#'])").forEach(link => {
-        link.addEventListener("click", function(event) {
-            event.preventDefault();
-            const targetUrl = this.href; // Capture the specific URL (e.g., /lokalis/)
-            overlay.style.opacity = "1";
-            setTimeout(() => {
-                window.location.href = targetUrl;
-            }, 300);
-        });
-    });
-});
-</script>
-
 </head>
-
 <body>
 
+<div id="flash-overlay"></div>
+
+<!-- AI MODAL -->
 <div class="modal-overlay" id="infoModal">
     <div class="modal-content">
-        <h3>Belépési adatok</h3>
+        <h3 style="color: #4da3ff;">Belépési adatok</h3>
         <p><strong>Felhasználónév:</strong> iskolai belépés<br>
            <strong>Jelszó:</strong> oveges</p>
-        <button class="close-btn" id="closeModal">Belépés a szerverre</button>
+        <button class="menu-btn" id="closeModal" style="background: #4da3ff; color: #000;">Belépés a szerverre</button>
     </div>
 </div>
 
+<!-- MC MODAL -->
 <div class="modal-overlay" id="mcModal">
-    <div class="modal-content mc-border">
+    <div class="modal-content" style="border-color: #55ff55;">
         <h3>Minecraft Szerver</h3>
         <p><strong>IP:</strong> release-lindsay.gl.joinmc.link<br>
            <strong>Verzió:</strong> 1.20.1 és fölötte</p>
-        <button class="close-btn mc-btn" id="closeMcModal">Bezárás</button>
+        <button class="menu-btn" id="closeMcModal" style="background: #55ff55; color: #000;">Bezárás</button>
+    </div>
+</div>
+
+<!-- DOWNLOADS MODAL -->
+<div class="modal-overlay" id="dlModal">
+    <div class="modal-content dl-border">
+        <h3>Letöltések</h3>
+        
+        <div class="category-title">Szoftverek</div>
+        <ul class="dl-list">
+            <li><a href="https://pub.vpeti.online/software/office/">Microsoft Office telepítő</a></li>
+            <li><a href="https://pub.vpeti.online/software/NI_MultiSim.zip">NI MultiSim</a></li>
+            <li><a href="https://pub.vpeti.online/software/AdbeRdr11000_hu_HU.exe">Adobe Reader XI (HU)</a></li>
+        </ul>
+
+        <div class="category-title">Operációs rendszerek & Driverek</div>
+        <ul class="dl-list">
+            <li><a href="https://pub.vpeti.online/osimages/winserver22.iso">Windows Server 2022 ISO</a></li>
+            <li><a href="https://pub.vpeti.online/osimages/Win11IOTEntLTSCHun.iso">Win 11 IOT Enterprise LTSC</a></li>
+            <li><a href="https://pub.vpeti.online/drivers/SiemensPLC_w_veep">Siemens PLC Driver + VEEP</a></li>
+        </ul>
+
+        <div class="category-title">Egyéb</div>
+        <ul class="dl-list">
+            <li><a href="https://share.vpeti.online/random/ovegesvideok.zip">Öveges Videók archívum</a></li>
+        </ul>
+
+        <button class="menu-btn" id="closeDlModal" style="background: #55ff55; color: #000; width: 100%; margin: 10px 0 0 0;">Bezárás</button>
     </div>
 </div>
 
@@ -257,10 +203,63 @@ document.addEventListener("DOMContentLoaded", () => {
 <a href="https://208sql.vpeti.online">208 SQL Szerver csatlakozás</a>
 <a id="ai-link" href="https://ovegesai.vpeti.online">AI szerver</a>
 <a id="mc-link" href="#">Minecraft szerver</a>
+<a id="dl-link" href="#">Letöltések</a>
     
 <div class="tiny-footer">
     © Öveges Technikum • Technikai támogatás: vpeti@vpeti.online • OPEN‑SCARIFF SERVER
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    document.body.classList.add("loaded");
+
+    const overlay = document.getElementById("flash-overlay");
+
+    window.addEventListener("pageshow", (event) => {
+        if (event.persisted) {
+            overlay.style.opacity = "0";
+        }
+    });
+
+    const setupModal = (btnId, modalId, closeId) => {
+        const btn = document.getElementById(btnId);
+        const modal = document.getElementById(modalId);
+        const close = document.getElementById(closeId);
+        
+        btn.addEventListener("click", (e) => {
+            e.preventDefault();
+            modal.classList.add("active");
+        });
+        
+        close.addEventListener("click", () => modal.classList.remove("active"));
+    };
+
+    setupModal("mc-link", "mcModal", "closeMcModal");
+    setupModal("dl-link", "dlModal", "closeDlModal");
+    setupModal("ai-link", "infoModal", "closeModal");
+    
+    document.getElementById("closeModal").addEventListener("click", () => {
+        overlay.style.opacity = "1";
+        setTimeout(() => {
+            window.location.href = "https://ovegesai.vpeti.online";
+        }, 300);
+    });
+
+    document.querySelectorAll("a[href]:not([href='#'])").forEach(link => {
+        if(link.id === "ai-link") return; 
+        link.addEventListener("click", function(e) {
+            const target = this.href;
+            if (target.startsWith("http")) {
+                e.preventDefault();
+                overlay.style.opacity = "1";
+                setTimeout(() => {
+                    window.location.href = target;
+                }, 300);
+            }
+        });
+    });
+});
+</script>
 
 </body>
 </html>
