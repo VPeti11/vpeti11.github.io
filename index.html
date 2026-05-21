@@ -146,16 +146,6 @@
 
 <div id="flash-overlay"></div>
 
-<!-- AI MODAL -->
-<div class="modal-overlay" id="infoModal">
-    <div class="modal-content">
-        <h3 style="color: #4da3ff;">Belépési adatok</h3>
-        <p><strong>Felhasználónév:</strong> iskolai belépés<br>
-           <strong>Jelszó:</strong> oveges</p>
-        <button class="menu-btn" id="closeModal" style="background: #4da3ff; color: #000;">Belépés a szerverre</button>
-    </div>
-</div>
-
 <!-- MC MODAL -->
 <div class="modal-overlay" id="mcModal">
     <div class="modal-content" style="border-color: #55ff55;">
@@ -163,33 +153,6 @@
         <p><strong>IP:</strong> release-lindsay.gl.joinmc.link<br>
            <strong>Verzió:</strong> 1.20.1 és fölötte</p>
         <button class="menu-btn" id="closeMcModal" style="background: #55ff55; color: #000;">Bezárás</button>
-    </div>
-</div>
-
-<!-- DOWNLOADS MODAL -->
-<div class="modal-overlay" id="dlModal">
-    <div class="modal-content dl-border">
-        <h3>Letöltések</h3>
-        
-        <div class="category-title">Szoftverek</div>
-        <ul class="dl-list">
-            <li><a href="https://pub.scariff.hu/software/office/">Microsoft Office telepítő</a></li>
-            <li><a href="https://pub.scariff.hu/software/NI%20Multisim%2014.3.zip">NI MultiSim</a></li>
-            <li><a href="https://pub.scariff.hu/software/AdbeRdr11000_hu_HU.exe">Adobe Acrobat</a></li>
-            <li><a href="https://pub.scariff.hu/drivers/SiemensPLC_w_veep.zip">Siemens PLC Driver + VEEP</a></li>
-        </ul>
-
-        <div class="category-title">Operációs rendszerek & Driverek</div>
-        <ul class="dl-list">
-            <li><a href="https://pub.scariff.hu/osimages/">ISO fájlok</a></li>
-        </ul>
-
-        <div class="category-title">Egyéb</div>
-        <ul class="dl-list">
-            <li><a href="https://share.scariff.hu/random/ovegesvideok.zip">Öveges Videók archívum</a></li>
-        </ul>
-
-        <button class="menu-btn" id="closeDlModal" style="background: #55ff55; color: #000; width: 100%; margin: 10px 0 0 0;">Bezárás</button>
     </div>
 </div>
 
@@ -203,7 +166,6 @@
 <a href="https://nextring.scariff.hu">Következő csengés</a>
 <a href="https://timekeeper.scariff.hu">Óra</a>
 <a id="mc-link" href="#">Minecraft szerver</a>
-<a id="dl-link" href="#">Letöltések</a>
     
 <div class="tiny-footer">
     © Öveges Technikum • Technikai támogatás: vpeti@scariff.hu • OPEN‑SCARIFF SERVER
@@ -235,15 +197,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     setupModal("mc-link", "mcModal", "closeMcModal");
-    setupModal("dl-link", "dlModal", "closeDlModal");
-    setupModal("ai-link", "infoModal", "closeModal");
     
-    document.getElementById("closeModal").addEventListener("click", () => {
-        overlay.style.opacity = "1";
-        setTimeout(() => {
-            window.location.href = "https://ai.scariff.hu";
-        }, 300);
-    });
 
     document.querySelectorAll("a[href]:not([href='#'])").forEach(link => {
         if(link.id === "ai-link") return; 
@@ -254,7 +208,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 overlay.style.opacity = "1";
                 setTimeout(() => {
                     window.location.href = target;
-                }, 300);
+                }, 301);
             }
         });
     });
